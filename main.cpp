@@ -113,31 +113,31 @@ void Conjuntos(int Alfa, int SetNumber, string TestFileName, int HashSize){
   vetor = MediaDeAcessosConjunto(Alfa, SetNumber, TestFileName, HashSize);
 
   cout << fixed << setprecision(5);
-  // cout << "=-=-=-=-=-=-=-=alfa-" << Alfa << "=-=-=-=-=-=-=-=" << endl;
+  cout << "=-=-=-=-=-=-=-=alfa-" << Alfa << "=-=-=-=-=-=-=-=" << endl;
 
-  // cout << "Media de acessos dos metodos para o conjunto " << SetNumber + 1 << endl;
+  cout << "Media de acessos dos metodos para o conjunto " << SetNumber + 1 << endl;
 
-  // cout << "Encadeamento explicito estatico: " << setw(7) << vetor[0] << endl;
+  cout << "Encadeamento explicito estatico: " << setw(7) << vetor[0] << endl;
   Resultados.open("Saida-explicito-estatico.csv", ios_base::app);
   Resultados << SetNumber << "," << Alfa << "," << vetor[0] << endl;
   Resultados.close();
 
-  // cout << "Encadeamento explicito dinamico: " << setw(7) << vetor[1] << endl;
+  cout << "Encadeamento explicito dinamico: " << setw(7) << vetor[1] << endl;
   Resultados.open("Saida-explicito-dinamico.csv", ios_base::app);
   Resultados << SetNumber << "," << Alfa << "," << vetor[1] << endl;
   Resultados.close();
 
-  // cout << left << setw(31) << "Duplo hashing" << ": " << right << setw(7) << vetor[2] << endl;
+  cout << left << setw(31) << "Duplo hashing" << ": " << right << setw(7) << vetor[2] << endl;
   Resultados.open("Saida-Duplo-hashing.csv", ios_base::app);
   Resultados << SetNumber << "," << Alfa << "," << vetor[2] << endl;
   Resultados.close();
 
-  // cout << left << setw(31) << "Sondagem linear" << ": " << right << setw(7) << vetor[3] << endl;
+  cout << left << setw(31) << "Sondagem linear" << ": " << right << setw(7) << vetor[3] << endl;
   Resultados.open("Saida-Sondagem-linear.csv", ios_base::app);
   Resultados << SetNumber << "," << Alfa << "," << vetor[3] << endl;
   Resultados.close();
 
-  //cout << endl;
+  cout << endl;
 }
 
 void ArquivoInteiro(int Alfa, int SetAmount){

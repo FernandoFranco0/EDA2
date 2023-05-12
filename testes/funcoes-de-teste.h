@@ -289,9 +289,6 @@ long double *MediaDeAcessosConjunto(long double alfa, int NumeroConjunto, string
     MediaDeUmConjunto[1] += h1.SearchKey(chaves[i])[1];
     MediaDeUmConjunto[2] += h2.SearchKey(chaves[i])[1];
     MediaDeUmConjunto[3] += h3.SearchKey(chaves[i])[1];
-    if( (alfa == 2 || alfa == 4 || alfa == 6) && NumeroConjunto == 1 ){
-      cout << "Alfa: " << Amount << " " <<  "Chave: " << i << " Busca: " << MediaDeUmConjunto[1] << endl;
-    }
   }
   
   MediaDeUmConjunto[0] /= (Amount);
