@@ -27,6 +27,16 @@ public:
     Tamanho = 0;
   }
 
+  ~ListaEncadeada(){
+    No *a = head;
+    No *buffer = a->proximo;
+    while(a != NULL){
+      free(a);
+      a = buffer;
+      buffer = a->proximo;
+    }
+  }
+
   void AddKey(int chave)
   {
     No *n = CriarNo(chave);

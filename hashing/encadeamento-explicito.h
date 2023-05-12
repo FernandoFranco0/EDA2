@@ -17,6 +17,10 @@ public:
     }
   }
 
+  ~EncadeamentoExplicito(){
+    free(pointerArray);
+  }
+
   bool AddKey(int Key)
   {
     int localDeInsercao = Key % Hash::Modulo;

@@ -127,7 +127,7 @@ void TestaCasosDaAula(int HashType){
   
 }
 
-float *MediaDeAcessosArquivo(float alfa){
+float *MediaDeAcessosArquivo(float alfa, int SetAmount){
     
   string Nome;
   int *chaves = new int[int(1001*alfa/100)];
@@ -144,7 +144,7 @@ float *MediaDeAcessosArquivo(float alfa){
     CasoTeste.open(Nome);
   
     //analisa todo conjunto
-    for( j = 0; j < 1000; j++){
+    for( j = 0; j < SetAmount; j++){
 
       //coleta as 1001*alfa/100 chaves a serem inseridas
       for( i = 0; i < 1001 ; i ++){
@@ -197,12 +197,12 @@ float *MediaDeAcessosArquivo(float alfa){
       
     }
     
-    MediaDeUmArquivo[0] /= 1000;
-    MediaDeUmArquivo[1] /= 1000;
-    MediaDeUmArquivo[2] /= 1000;
-    MediaDeUmArquivo[3] /= 1000;
+    MediaDeUmArquivo[0] /= SetAmount;
+    MediaDeUmArquivo[1] /= SetAmount;
+    MediaDeUmArquivo[2] /= SetAmount;
+    MediaDeUmArquivo[3] /= SetAmount;
 
-  //CasoTeste.close();
+  CasoTeste.close();
   
   return MediaDeUmArquivo;
 }

@@ -26,6 +26,11 @@ public:
     }
   }
 
+  ~Hash(){
+    free(array);
+    free(IsEmpty);
+  }
+
   void PrintTable()
   {
     for (int i = 0; i < Hash::Modulo; i++)
