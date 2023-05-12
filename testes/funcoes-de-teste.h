@@ -76,6 +76,19 @@ void AbrirExplicito(string Nome){
   cout << endl;
   h.PrintTable();
   
+  double Media = 0;
+  double temp;
+  
+  for(int i = 0 ; i < Quantidade ; i++){
+    temp = h.SearchKey(Keys[i])[1];
+    cout << "Chave " << i << " " << temp << endl;
+    Media += temp;
+  }
+
+
+  Media /= Quantidade;
+  cout << Media << endl;
+
 }
 
 void AbrirExplicitoDinamico(string Nome){
@@ -100,6 +113,19 @@ void AbrirExplicitoDinamico(string Nome){
     h.AddKey(Keys[i]);
   }
   h.PrintTable();
+
+  double Media = 0;
+  double temp;
+  
+  for(int i = 0 ; i < Quantidade ; i++){
+    temp = h.SearchKey(Keys[i])[1];
+    cout << "Chave " << i << " " << temp << endl;
+    Media += temp;
+  }
+
+
+  Media /= Quantidade;
+  cout << Media << endl;
   
 }
 
@@ -127,13 +153,14 @@ void TestaCasosDaAula(int HashType){
   
 }
 
-float *MediaDeAcessosArquivo(float alfa, int SetAmount){
+long double *MediaDeAcessosArquivo(long double alfa, int SetAmount){
     
   string Nome;
-  int *chaves = new int[int(1001*alfa/100)];
+  int Amount = int(1001*alfa/100);
+  int *chaves = new int[Amount];
   
-  float *MediaDeUmArquivo = (float*) calloc(4,sizeof(float));//Media de todos as chaves de uma tabela de todas as tabelas de um arquivo de teste
-  float *MediaDeUmConjunto = (float*) calloc(4,sizeof(float));//Media de todos as chaves de uma tabela
+  long double *MediaDeUmArquivo = (long double*) calloc(4,sizeof(long double));//Media de todos as chaves de uma tabela de todas as tabelas de um arquivo de teste
+  long double *MediaDeUmConjunto = (long double*) calloc(4,sizeof(long double));//Media de todos as chaves de uma tabela
   ifstream CasoTeste;
   int j, i;
   int buffer;
@@ -149,7 +176,7 @@ float *MediaDeAcessosArquivo(float alfa, int SetAmount){
       //coleta as 1001*alfa/100 chaves a serem inseridas
       for( i = 0; i < 1001 ; i ++){
         
-        if (i < 1001*alfa/100){             
+        if (i < Amount){             
           CasoTeste >> chaves[i];
         }
         else{
@@ -164,7 +191,7 @@ float *MediaDeAcessosArquivo(float alfa, int SetAmount){
       SondagemLinear h3(1001);
       
       //adicionas as chaves a suas posições respectivas
-      for( i = 0; i < 1001*alfa/100; i ++){
+      for( i = 0; i < Amount; i ++){
         h0.AddKey(chaves[i]);
         h1.AddKey(chaves[i]);
         h2.AddKey(chaves[i]);
@@ -177,17 +204,17 @@ float *MediaDeAcessosArquivo(float alfa, int SetAmount){
       MediaDeUmConjunto[3] = 0;
 
       //calcula media de um conjunto
-      for( i = 0; i < 1001*alfa/100; i ++){
+      for( i = 0; i < Amount; i ++){
         MediaDeUmConjunto[0] += h0.SearchKey(chaves[i])[1];
         MediaDeUmConjunto[1] += h1.SearchKey(chaves[i])[1];
         MediaDeUmConjunto[2] += h2.SearchKey(chaves[i])[1];
         MediaDeUmConjunto[3] += h3.SearchKey(chaves[i])[1];
       }
       
-      MediaDeUmConjunto[0] /= (1001*alfa/100);
-      MediaDeUmConjunto[1] /= (1001*alfa/100);
-      MediaDeUmConjunto[2] /= (1001*alfa/100);
-      MediaDeUmConjunto[3] /= (1001*alfa/100);
+      MediaDeUmConjunto[0] /= Amount;
+      MediaDeUmConjunto[1] /= Amount;
+      MediaDeUmConjunto[2] /= Amount;
+      MediaDeUmConjunto[3] /= Amount;
 
       
       MediaDeUmArquivo[0] += MediaDeUmConjunto[0];
@@ -207,11 +234,12 @@ float *MediaDeAcessosArquivo(float alfa, int SetAmount){
   return MediaDeUmArquivo;
 }
 
-float *MediaDeAcessosConjunto(float alfa, int NumeroConjunto, string TestFileName, int HashSize){
+long double *MediaDeAcessosConjunto(long double alfa, int NumeroConjunto, string TestFileName, int HashSize){
   
-  int chaves[int(HashSize*alfa/100)];
+  int Amount = int(HashSize*alfa/100);
+  int chaves[Amount];
 
-  float *MediaDeUmConjunto = (float*) calloc(4,sizeof(float));//Media de todos as chaves de uma tabela
+  long double *MediaDeUmConjunto = (long double*) calloc(4,sizeof(long double));//Media de todos as chaves de uma tabela
 
   
   ifstream CasoTeste;
@@ -231,7 +259,7 @@ float *MediaDeAcessosConjunto(float alfa, int NumeroConjunto, string TestFileNam
 
   //coleta as 1001*alfa/100 chaves a serem inseridas
   for( i = 0; i < HashSize ; i ++){
-     if (i < HashSize*alfa/100){             
+     if (i < Amount){             
        CasoTeste >> chaves[i];
      }
      else{
@@ -246,7 +274,7 @@ float *MediaDeAcessosConjunto(float alfa, int NumeroConjunto, string TestFileNam
   SondagemLinear h3(HashSize);
   
   // //adicionas as chaves a suas posições respectivas
-  for( i = 0; i < HashSize*alfa/100; i++){
+  for( i = 0; i < Amount; i++){
     h0.AddKey(chaves[i]);
     h1.AddKey(chaves[i]);
     h2.AddKey(chaves[i]);
@@ -256,17 +284,20 @@ float *MediaDeAcessosConjunto(float alfa, int NumeroConjunto, string TestFileNam
   //
   
   //calcula media de um conjunto
-  for( i = 0; i < HashSize*alfa/100; i ++){
+  for( i = 0; i < Amount; i ++){
     MediaDeUmConjunto[0] += h0.SearchKey(chaves[i])[1];
     MediaDeUmConjunto[1] += h1.SearchKey(chaves[i])[1];
     MediaDeUmConjunto[2] += h2.SearchKey(chaves[i])[1];
     MediaDeUmConjunto[3] += h3.SearchKey(chaves[i])[1];
+    if( (alfa == 2 || alfa == 4 || alfa == 6) && NumeroConjunto == 1 ){
+      cout << "Alfa: " << Amount << " " <<  "Chave: " << i << " Busca: " << MediaDeUmConjunto[1] << endl;
+    }
   }
   
-  MediaDeUmConjunto[0] /= (HashSize*alfa/100);
-  MediaDeUmConjunto[1] /= (HashSize*alfa/100);
-  MediaDeUmConjunto[2] /= (HashSize*alfa/100);
-  MediaDeUmConjunto[3] /= (HashSize*alfa/100); 
+  MediaDeUmConjunto[0] /= (Amount);
+  MediaDeUmConjunto[1] /= (Amount);
+  MediaDeUmConjunto[2] /= (Amount);
+  MediaDeUmConjunto[3] /= (Amount); 
   
 
   CasoTeste.close();
