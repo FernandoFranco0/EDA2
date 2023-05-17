@@ -115,9 +115,9 @@ public:
     int localDeInsercao = Key % Modulo;
     int busca = array[localDeInsercao]->SearchKey(Key);
     vetorRetorno[0] = localDeInsercao;
+    vetorRetorno[1] = busca + 1;
     vetorRetorno[2] = busca;
 
-    vetorRetorno[1] = busca + 1;
     return vetorRetorno;
   }
 

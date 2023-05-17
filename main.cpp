@@ -117,13 +117,13 @@ void Conjuntos(int Alfa, int SetNumber, string TestFileName, int HashSize){
 
   cout << "Media de acessos dos metodos para o conjunto " << SetNumber + 1 << endl;
 
-  cout << "Encadeamento explicito estatico: " << setw(7) << vetor[0] << endl;
-  Resultados.open("Saida-explicito-estatico.csv", ios_base::app);
+  cout << "Encadeamento explicito dinamico: " << setw(7) << vetor[0] << endl;
+  Resultados.open("Saida-explicito-dinamico.csv", ios_base::app);
   Resultados << SetNumber << "," << Alfa << "," << vetor[0] << endl;
   Resultados.close();
 
-  cout << "Encadeamento explicito dinamico: " << setw(7) << vetor[1] << endl;
-  Resultados.open("Saida-explicito-dinamico.csv", ios_base::app);
+  cout << "Encadeamento explicito estatico: " << setw(7) << vetor[1] << endl;
+  Resultados.open("Saida-explicito-estatico.csv", ios_base::app);
   Resultados << SetNumber << "," << Alfa << "," << vetor[1] << endl;
   Resultados.close();
 
@@ -151,13 +151,13 @@ void ArquivoInteiro(int Alfa, int SetAmount){
   cout << "=-=-=-=-=-=-=-=alfa-" << Alfa << "=-=-=-=-=-=-=-=" << endl;
   cout << "=-=-=-Media de acessos dos metodos=-=-=-" << endl;
 
-  cout << "Encadeamento explicito estatico: " << setw(7) << vetor[0] << endl;
-  Resultados.open("Saida-explicito-estatico-total.csv", ios_base::app);
+  cout << "Encadeamento explicito dinamico: " << setw(7) << vetor[0] << endl;
+  Resultados.open("Saida-explicito-dinamico-total.csv", ios_base::app);
   Resultados << Alfa << "," << vetor[0] << endl;
   Resultados.close();
 
-  cout << "Encadeamento explicito dinamico: " << setw(7) << vetor[1] << endl;
-  Resultados.open("Saida-explicito-dinamico-total.csv", ios_base::app);
+  cout << "Encadeamento explicito estatico: " << setw(7) << vetor[1] << endl;
+  Resultados.open("Saida-explicito-estatico-total.csv", ios_base::app);
   Resultados << Alfa << "," << vetor[1] << endl;
   Resultados.close();
 
