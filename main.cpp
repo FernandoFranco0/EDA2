@@ -14,7 +14,7 @@ using namespace std;
 #include "./hashing/enderecamento-aberto-duplo-hashing.h"
 #include "./hashing/enderecamento-aberto-sondagem-linear.h"
 #include "./testes/funcoes-de-teste.h"
-
+#include "./hashing/linear.h"
 
 void Conjuntos(int, int, string, int);
 void ArquivoInteiro(int, int);
