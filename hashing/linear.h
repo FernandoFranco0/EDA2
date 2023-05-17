@@ -1,5 +1,5 @@
-#include<bits/stdc++.h>
-using namespace std;
+//#include<bits/stdc++.h>
+//using namespace std;
 
 typedef struct 
 {
@@ -19,7 +19,7 @@ class linear
 {
 
 public:
-    int AlphaMax, Marker = 0, ListLevel = 0, NumberOfKeys = 0;
+    int AlphaMax, Marker = 0, ListLevel = 0, NumberOfKeys = 0, NumberOfPages;
     
     vector<vector<Page>> Lists ;
 
@@ -27,7 +27,7 @@ public:
     {   
         vector<Page> PqNaoFuncionaSemIsso(1);
         Lists = vector<vector<Page>>(2, PqNaoFuncionaSemIsso ); // c++ é podre
-
+        NumberOfPages = Lists.size();
         AlphaMax = Alpha;
     }
 
@@ -43,12 +43,13 @@ public:
 
     void CreateExtraPages(vector<Page> *List)
     {
+        NumberOfPages++;
         List->push_back({});
     }
 
     void CheckAlpha()
     {
-        while( (double) NumberOfKeys/(2*Lists.size()) > (double)AlphaMax/100 )
+        while( (double) NumberOfKeys/(2*NumberOfPages) > (double)AlphaMax/100 )
             Redistribute();
     }
 
@@ -56,6 +57,7 @@ public:
     void Redistribute()
     {
         Lists.push_back(vector<Page>(1));
+        NumberOfPages++;
         
         int PreviousMarker = Marker;
 
@@ -90,6 +92,7 @@ public:
         {
             Lists[PageNumber].pop_back();
             size = Lists[PageNumber].size();
+            NumberOfPages--;
         }
     } 
 
