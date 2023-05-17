@@ -29,6 +29,23 @@ int main()
   int HashSize, SetAmount;
   ofstream Resultados;
 
+
+  linear h(80);
+
+  h.AddKey(8);
+  h.AddKey(11);
+  h.AddKey(10);
+  h.AddKey(15);
+  h.AddKey(17);
+  h.AddKey(25);
+  h.AddKey(44);
+  h.AddKey(12);
+
+
+  cout << "a";
+
+
+
   // -----------------------------Testar dps------------------------
   // cout << "Tamnaho da Hash: ";
   // cin >> HashSize;

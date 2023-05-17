@@ -52,7 +52,7 @@ public:
             Redistribute();
     }
 
-    //TO-DO
+   
     void Redistribute()
     {
         Lists.push_back(vector<Page>(1));
@@ -70,12 +70,12 @@ public:
             if(!p.SlotOne.Empty)
             {
                 p.SlotOne.Empty = true;
-                AddKey(p.SlotOne.Key,0);
+                AddKey(p.SlotOne.Key,1);
             }
             if (!p.SlotTwo.Empty)
             {
                 p.SlotTwo.Empty = true;
-                AddKey(p.SlotTwo.Key,0);
+                AddKey(p.SlotTwo.Key,1);
             }         
         }
 
@@ -98,11 +98,11 @@ public:
     {
         s->Key = Key;
         s->Empty = false;
-        NumberOfKeys += Remap;
+        NumberOfKeys += !Remap;
         CheckAlpha();
     }
 
-    void AddKey(int Key, int Remap = 1)
+    void AddKey(int Key, int Remap = 0)
     {
         int Position = Hash(Key);
 
