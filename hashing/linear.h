@@ -102,6 +102,7 @@ public:
         CheckAlpha();
     }
 
+    // Remap = 0 -> nova chave. Remap = 1 -> chave ja esta na tabela, ira redistribuir ela
     void AddKey(int Key, int Remap = 0)
     {
         int Position = Hash(Key);
@@ -131,11 +132,6 @@ public:
                 CreateExtraPages(&Lists[Position]);
             }
         }
-    }
-
-    void Teste(int a)
-    {
-        Lists[0][0].SlotOne.Key = 8;
     }
 
 };
