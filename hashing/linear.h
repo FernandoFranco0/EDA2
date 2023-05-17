@@ -93,7 +93,7 @@ public:
         }
     } 
 
-
+    // Remap = 0 -> nova chave. Remap = 1 -> chave ja esta na tabela, ira redistribuir ela
     void Insert(Slot *s, int Key, int Remap)
     {
         s->Key = Key;
