@@ -13,8 +13,8 @@ using namespace std;
 #include "./hashing/encadeamento-explicito.h"
 #include "./hashing/enderecamento-aberto-duplo-hashing.h"
 #include "./hashing/enderecamento-aberto-sondagem-linear.h"
-#include "./testes/funcoes-de-teste.h"
 #include "./hashing/linear.h"
+#include "./testes/funcoes-de-teste.h"
 
 void Conjuntos(int, int, string, int);
 void ArquivoInteiro(int, int);
@@ -28,21 +28,6 @@ int main()
   string TestFileName;
   int HashSize, SetAmount;
   ofstream Resultados;
-
-
-  linear h(80);
-
-  h.AddKey(8);
-  h.AddKey(11);
-  h.AddKey(10);
-  h.AddKey(15);
-  h.AddKey(17);
-  h.AddKey(25);
-  h.AddKey(44);
-  h.AddKey(12);
-
-
-  cout << "a";
 
 
 
