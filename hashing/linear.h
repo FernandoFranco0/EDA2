@@ -137,5 +137,43 @@ public:
         }
     }
 
+    int* SearchKey(int Key)
+    {
+        int Position = Hash(Key);
+        int AcessNumber = 1;
+        int Found = 0;
+
+        for (auto &p : Lists[Position])
+        {
+            if(p.SlotOne.Key == Key)
+            {
+                Found = 1;
+                break;
+            }
+            AcessNumber++;
+            if (p.SlotTwo.Key)
+            {
+                Found = 2;
+                break;
+            }    
+            AcessNumber++;
+        }
+        int a[2] = {Found, AcessNumber};
+        return a;
+    }
+
+    void PrintTabel()
+    {
+        int i = 0;
+        for(auto &l : Lists)
+        {
+            cout << "Pagina Número: " << i++;
+            for(auto &p : l)
+            {
+                cout << p.SlotOne.Key << "  " << p.SlotTwo.Key << "-->";
+            }
+            cout << endl;
+        }
+    }
 };
 

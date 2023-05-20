@@ -43,7 +43,7 @@ int main()
   HashSize = 1001;
   SetAmount = 100;
 
-  int Caso = 1;
+  int Caso = 2;
 
   switch (Caso)
   {
