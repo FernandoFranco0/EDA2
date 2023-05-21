@@ -18,6 +18,7 @@ using namespace std;
 
 void Conjuntos(int, int, string, int);
 void ArquivoInteiro(int, int);
+void ArquivoProfessor(string);
 
 
 
@@ -29,77 +30,84 @@ int main()
   int HashSize, SetAmount;
   ofstream Resultados;
 
+  
 
+  cout << "1 - Testes no formato do grupo | 2 - Testes no formato do professor" << endl;
+  int a;
+  string b;
+  getline(cin,b);
+  a = stoi(b);
 
-  // -----------------------------Testar dps------------------------
-  // cout << "Tamnaho da Hash: ";
-  // cin >> HashSize;
-  // cout << "Nome do arquivo de teste:  ";
-  // getline(cin,TestFileName);
-  // cout << "Número de conjuntos de teste no arquivo:  ";
-  // cin >> SetAmount;
-
-  TestFileName = "testes/testes-finais/testes-finais-0.txt";
-  HashSize = 1001;
-  SetAmount = 100;
-
-  int Caso = 2;
-
-  switch (Caso)
+  if (a == 1)
   {
-  case 1:
-    Resultados.open("Saida-explicito-estatico.csv");
-    Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    Resultados.open("Saida-explicito-dinamico.csv");
-    Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    Resultados.open("Saida-Duplo-hashing.csv");
-    Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    Resultados.open("Saida-Sondagem-linear.csv");
-    Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    for (int i = 0; i < SetAmount; i++)
+    TestFileName = "testes/testes-finais/testes-finais-0.txt";
+    HashSize = 1001;
+    SetAmount = 100;
+    cout << "1 - Por conjunto | 2 - Arquivo inteiro" << endl;
+    int Caso;
+    cin >> Caso;
+    switch (Caso)
     {
+    case 1:
+      Resultados.open("Saida-explicito-estatico.csv");
+      Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      Resultados.open("Saida-explicito-dinamico.csv");
+      Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      Resultados.open("Saida-Duplo-hashing.csv");
+      Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      Resultados.open("Saida-Sondagem-linear.csv");
+      Resultados << "\"Conjunto\",\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      for (int i = 0; i < SetAmount; i++)
+      {
+        for (int j = 1; j < 50; j++)
+        {
+          Conjuntos(alfa*j, i, TestFileName, HashSize);
+        }
+      }
+
+      break;
+    
+    case 2:
+
+      Resultados.open("Saida-explicito-estatico-total.csv");
+      Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      Resultados.open("Saida-explicito-dinamico-total.csv");
+      Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      Resultados.open("Saida-Duplo-hashing-total.csv");
+      Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
+      Resultados.open("Saida-Sondagem-linear-total.csv");
+      Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
+      Resultados.close();
+
       for (int j = 1; j < 50; j++)
       {
-        Conjuntos(alfa*j, i, TestFileName, HashSize);
+        ArquivoInteiro(alfa*j, SetAmount);
       }
+      break;
+
+    default:
+      break;
     }
-
-    break;
-  
-  case 2:
-
-    Resultados.open("Saida-explicito-estatico-total.csv");
-    Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    Resultados.open("Saida-explicito-dinamico-total.csv");
-    Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    Resultados.open("Saida-Duplo-hashing-total.csv");
-    Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    Resultados.open("Saida-Sondagem-linear-total.csv");
-    Resultados << "\"Alfa\",\"Acesso-Medio\"" << endl;
-    Resultados.close();
-
-    for (int j = 1; j < 50; j++)
-    {
-      ArquivoInteiro(alfa*j, SetAmount);
-    }
-    break;
-
-  default:
-    break;
+  }
+  else
+  {
+    cout << "Nome do arquivo de teste:  ";
+    getline(cin,TestFileName);
+    ArquivoProfessor(TestFileName);
   }
 
 
@@ -108,7 +116,8 @@ int main()
   return 0;
 }
 
-void Conjuntos(int Alfa, int SetNumber, string TestFileName, int HashSize){
+void Conjuntos(int Alfa, int SetNumber, string TestFileName, int HashSize)
+{
   long double *vetor;
   ofstream Resultados;
 
@@ -142,7 +151,8 @@ void Conjuntos(int Alfa, int SetNumber, string TestFileName, int HashSize){
   cout << endl;
 }
 
-void ArquivoInteiro(int Alfa, int SetAmount){
+void ArquivoInteiro(int Alfa, int SetAmount)
+{
   long double *vetor;
   ofstream Resultados;
 
@@ -172,4 +182,9 @@ void ArquivoInteiro(int Alfa, int SetAmount){
   Resultados.open("Saida-Sondagem-linear-total.csv", ios_base::app);
   Resultados << Alfa << "," << vetor[3] << endl;
   Resultados.close();
+}
+
+void ArquivoProfessor(string FileName)
+{
+  TesteProfessor(FileName);
 }

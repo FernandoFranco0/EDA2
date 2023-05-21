@@ -15,7 +15,7 @@ typedef struct
 
 
 
-class linear
+class Linear
 {
 
 public:
@@ -23,7 +23,7 @@ public:
     
     vector<vector<Page>> Lists ;
 
-    linear(int Alpha) 
+    Linear(int Alpha) 
     {   
         vector<Page> PqNaoFuncionaSemIsso(1);
         Lists = vector<vector<Page>>(2, PqNaoFuncionaSemIsso ); // c++ é podre
@@ -158,19 +158,31 @@ public:
             }    
             AcessNumber++;
         }
-        int a[2] = {Found, AcessNumber};
-        return a;
+        int *Vetor_resposta = new int[2];
+        Vetor_resposta[0] =  Found;
+        Vetor_resposta[1] =  AcessNumber;
+        return Vetor_resposta;
     }
 
-    void PrintTabel()
+    void PrintTable()
     {
         int i = 0;
         for(auto &l : Lists)
         {
-            cout << "Pagina Número: " << i++;
+            cout << "Pagina Numero " << i++ << ":    ";
             for(auto &p : l)
             {
-                cout << p.SlotOne.Key << "  " << p.SlotTwo.Key << "-->";
+                if(!p.SlotOne.Empty)
+                    cout << "1: " << p.SlotOne.Key << "  ";
+                else
+                    cout << "1: ";
+                
+                if(!p.SlotTwo.Empty)
+                    cout << "2: " << p.SlotTwo.Key << "  ";
+                else
+                    cout << "2: " ;
+                
+                cout << " --> ";
             }
             cout << endl;
         }

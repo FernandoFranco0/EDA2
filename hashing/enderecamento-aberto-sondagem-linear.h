@@ -65,6 +65,7 @@ public:
   {
     for (int i = 0; i < Hash::Modulo; i++)
     {
+      cout << i << ": " ;
       if (Hash::IsEmpty[i])
         cout << " " << endl;
       else

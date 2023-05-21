@@ -301,3 +301,67 @@ long double *MediaDeAcessosConjunto(long double alfa, int NumeroConjunto, string
   
   return MediaDeUmConjunto;
 }
+
+void TesteProfessor(string FileName)
+{
+  ifstream CasoTeste;
+  CasoTeste.open(FileName);
+  int HashSize;
+  CasoTeste >> HashSize;
+
+  EncadeamentoExplicitoDinamico h0(HashSize);
+  EncadeamentoExplicito h1(HashSize);
+  DuploHashing h2(HashSize);
+  SondagemLinear h3(HashSize);
+  Linear h4(80);
+
+  int Key;
+  vector<int> Keys;
+
+  while (CasoTeste >> Key) 
+  {
+    Keys.push_back(Key);
+    h0.AddKey(Key);
+    h1.AddKey(Key);
+    h2.AddKey(Key);
+    h3.AddKey(Key);
+    h4.AddKey(Key);
+  }
+
+  long double Media0 = 0, Media1 = 0, Media2 = 0, Media3 = 0, Media4 = 0;
+
+  for(auto k : Keys)
+  {
+    Media0 += h0.SearchKey(k)[1];
+    Media1 += h1.SearchKey(k)[1];
+    Media2 += h2.SearchKey(k)[1];
+    Media3 += h3.SearchKey(k)[1];
+    Media4 += h4.SearchKey(k)[1];
+  }
+
+  Media0 /= Keys.size();
+  Media1 /= Keys.size();
+  Media2 /= Keys.size();
+  Media3 /= Keys.size();
+  Media4 /= Keys.size();
+
+  cout << "Tabela para o Encadeamento Explicito Dinamico:" << endl;
+  h0.PrintTable();
+  cout << "Media de acesos para o Encadeamento Explicito Dinamico: " << Media0 << endl << endl;
+
+  cout << "Tabela para o Encadeamento Explicito Estatico:" << endl;
+  h1.PrintTable();
+  cout << "Media de acesos para o Encadeamento Explicito Estatico: " << Media1 << endl << endl;
+
+  cout << "Tabela para o Duplo Hashing:" << endl;
+  h2.PrintTable();
+  cout << "Media de acesos para o Duplo Hashing: " << Media2 << endl << endl;
+
+  cout << "Tabela para a Sondagem Linear:" << endl;
+  h3.PrintTable();
+  cout << "Media de acesos para a Sondagem Linear: " << Media3 << endl << endl;
+
+  cout << "Tabela para a Hashing Linear com 2 numeros por pagina e alfa maximo igual a 80%:" << endl;
+  h4.PrintTable();
+  cout << "Media de acesos para a Hashing Linear com 2 numeros por pagina e alfa maximo igual a 80%: " << Media4 << endl << endl;
+}
