@@ -41,7 +41,7 @@ int main()
   if (a == 1)
   {
     TestFileName = "testes/testes-finais/testes-finais-0.txt";
-    HashSize = 1001;
+    HashSize = 997;
     SetAmount = 100;
     cout << "1 - Por conjunto | 2 - Arquivo inteiro" << endl;
     int Caso;
