@@ -239,14 +239,11 @@ class HuffmanFile
 
             for(unsigned long long int i = 0 ; i < Lenght ; ){
                 
-                if(i = Lenght - 16){
+                if(i == Lenght - 16){
                     BitsToConsider = b->ReadByte();
                     i += 8;
                 }
                 
-                if(b->BitCount = BitsToConsider)
-                    break;
-
                 if(!Buffer->LeftNode && !Buffer->RightNode){
                     OutB.WriteByte(Buffer->Character);
                     Buffer = this;
