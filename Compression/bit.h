@@ -27,7 +27,9 @@ public:
 
     void WriteByte(char c){
         for(int i = 0 ; i < 8 ; i++){
-            WriteBit(c >> 7-i | 1);
+            unsigned char a = c;
+            unsigned char b = (a >> 7-i) & 1;
+            WriteBit( b );
         }
     }
 

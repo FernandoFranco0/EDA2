@@ -136,6 +136,7 @@ class HuffmanFile
             CreateHeaderR(b, &OrderedAlphabet);
             b->WriteBit(1);
             cout << 1 << " ";
+
             for(auto Letter : OrderedAlphabet){
                 b->WriteByte(Letter);
 
@@ -210,7 +211,7 @@ class HuffmanFile
                 Root->RightNode = new HuffmanFile();
                 a = b->ReadBit();
                 cout << a << " ";
-                CreateTreeDecompress(b,a, Root->LeftNode);
+                CreateTreeDecompress(b,a, Root->RightNode);
             }
             return Root;
         }
@@ -218,7 +219,8 @@ class HuffmanFile
         void Fill(InBit *b){
             if(!LeftNode && !RightNode){
                 for(int i = 0 ; i < 8 ; i++){
-                    Character = Character << 1 | b->ReadBit();
+                    char c = b->ReadBit();
+                    Character = Character << 1 | c;
                 }
                 return;
             }
