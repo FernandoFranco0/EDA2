@@ -64,7 +64,7 @@ class HuffmanString
         }
 
         void Free(){
-            if(!LeftNode && !RightNode)
+            if(!IsNode)
                 return;
 
             LeftNode->Free();
@@ -115,7 +115,7 @@ class HuffmanString
         }
 
         void CreateHeaderR(string *Header, string *OrderedAlphabet){
-            if(!LeftNode && !RightNode){
+            if(!IsNode){
                 (*OrderedAlphabet) += Character;
                 return;
             }
@@ -141,7 +141,7 @@ class HuffmanString
             string DString = "";
 
             while(Index <= Header.length()){
-                if(!Buffer->LeftNode && !Buffer->RightNode){
+                if(!(Buffer->IsNode)){
                     DString += Buffer->Character;
                     Buffer = this;
                 }
@@ -174,7 +174,7 @@ class HuffmanString
         }
 
         void Fill(string Header, int *Index){
-            if(!LeftNode && !RightNode){
+            if(!IsNode){
                 Character = Header[*Index];
                 (*Index)++;
                 return;

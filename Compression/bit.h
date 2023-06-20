@@ -6,6 +6,7 @@ public:
     char CurrentByte;
     char BitCount;
     ofstream Out;
+    unsigned long long int TotalBitsRead;
 
     OutBit(string Path){
         CurrentByte = 0;
@@ -17,7 +18,8 @@ public:
     void WriteBit(int bit){
         CurrentByte = CurrentByte << 1 | bit;
         BitCount++;
-        //cout << (int)CurrentByte << " ";
+        TotalBitsRead++;
+
         if(BitCount == 8){
             Out.write(&CurrentByte,1);
             CurrentByte = 0;
@@ -49,12 +51,14 @@ class InBit
 public:
     unsigned char CurrentByte;
     unsigned char BitCount;
+    unsigned long long int TotalBitsRead;
     ifstream In;
 
     InBit(string Path){
         CurrentByte = 0;
         BitCount = 0;
         In.open(Path, ios::binary);
+        TotalBitsRead = 0;
     };
 
     char ReadBit(){
@@ -66,11 +70,18 @@ public:
 
         unsigned char ReturnByte = CurrentByte >> 7-BitCount & 1;
         BitCount++;
+        TotalBitsRead++;
 
         if (BitCount == 8)
             BitCount = 0;
             
         return ReturnByte;
+    }
+
+    char ReadByte(){
+        char Byte;
+        In.read(&Byte,1);
+        return Byte;
     }
     
     void Close(){

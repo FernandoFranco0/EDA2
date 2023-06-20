@@ -194,7 +194,7 @@ class HuffmanFile
 
             Root->Fill(&b);
 
-            Root->DecodeMsg(&b, Lenght);
+            Root->DecompressMsg(&b, 8*Lenght - b.TotalBitsRead);
 
             b.Close();
         }
@@ -231,9 +231,36 @@ class HuffmanFile
             return;
         }
         
-        void DecodeMsg(InBit *b, unsigned long long int Lenght){
+        //Lenght in bits
+        void DecompressMsg(InBit *b, unsigned long long int Lenght){
             auto Buffer = this;
             OutBit OutB("Arquivo Descomprimido.afc");
+            int BitsToConsider = 100000;
+
+            for(unsigned long long int i = 0 ; i < Lenght ; ){
+                
+                if(i = Lenght - 16){
+                    BitsToConsider = b->ReadByte();
+                    i += 8;
+                }
+                
+                if(b->BitCount = BitsToConsider)
+                    break;
+
+                if(!Buffer->LeftNode && !Buffer->RightNode){
+                    OutB.WriteByte(Buffer->Character);
+                    Buffer = this;
+                }
+                else{
+                    if(b->ReadBit() == 0)
+                        Buffer = Buffer->LeftNode;
+                    else
+                        Buffer = Buffer->RightNode;
+                    i++;
+                }
+                
+
+            }
 
             OutB.Close();
         }
