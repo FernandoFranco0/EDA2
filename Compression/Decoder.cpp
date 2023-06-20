@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
-#include "Huffman.h"
+#include "bit.h"
+#include "HuffmanFile.h"
+#include "HuffmanString.h"
 using namespace std;
 
 
@@ -8,10 +10,10 @@ int main(int argc, char const *argv[])
 {
     string str = "dabeeababbebeaeadcccaaddcbbaccaaccaabccffbfbfbdg";
 
-    auto a = Huffman::EncodeString(str);
-    cout << a << endl;
+    HuffmanFile::Compress("In.txt");
+    
 
-    auto b = Huffman::DecodeString(a);
-    cout << b << endl;
+    HuffmanFile::Decompress("Compressed.afc");
+    
     return 0;
 }
