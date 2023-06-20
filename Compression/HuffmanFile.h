@@ -97,8 +97,17 @@ class HuffmanFile
 
             Root->WriteCompressedMsg(&b, Path, Lenght, CodesMap);
 
-            b.WriteByte(b.BitCount);
+            char BitCount = b.BitCount;
+            
             b.Fill();
+
+            b.WriteByte(BitCount);
+            /*
+            0 - > Ler 8
+            1 -> Ler 1
+            2 -> Ler 2
+            
+            */
 
             b.Close();
 
@@ -235,28 +244,49 @@ class HuffmanFile
         void DecompressMsg(InBit *b, unsigned long long int Lenght){
             auto Buffer = this;
             OutBit OutB("Arquivo Descomprimido.afc");
-            int BitsToConsider = 100000;
 
-            for(unsigned long long int i = 0 ; i < Lenght ; ){
-                
-                if(i == Lenght - 16){
-                    BitsToConsider = b->ReadByte();
-                    i += 8;
-                }
-                
+            for(unsigned long long int i = 0 ; i < Lenght - 16 ; i++){
+                                
                 if(!Buffer->LeftNode && !Buffer->RightNode){
                     OutB.WriteByte(Buffer->Character);
                     Buffer = this;
+                    i--;
                 }
                 else{
                     if(b->ReadBit() == 0)
                         Buffer = Buffer->LeftNode;
                     else
                         Buffer = Buffer->RightNode;
-                    i++;
+                    
                 }
                 
+            }
 
+            char LastByte = b->ReadByte();
+            int BitsToConsider = b->ReadByte();
+            BitsToConsider = BitsToConsider == 0 ? 8 : BitsToConsider;
+
+            int a;
+
+            for(unsigned long long int i = 0 ; i < BitsToConsider ; i++ ){
+                                
+                if(!Buffer->LeftNode && !Buffer->RightNode){
+                    OutB.WriteByte(Buffer->Character);
+                    Buffer = this;
+                    i--;
+                }
+                else{
+                    a = (LastByte >> 7 - i) & 1;
+                    if( a == 0 )
+                        Buffer = Buffer->LeftNode;
+                    else
+                        Buffer = Buffer->RightNode;
+                }
+            }
+
+            if(!Buffer->LeftNode && !Buffer->RightNode){
+                OutB.WriteByte(Buffer->Character);
+                Buffer = this;
             }
 
             OutB.Close();
