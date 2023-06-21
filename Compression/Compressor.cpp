@@ -8,12 +8,17 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
     string Path = "";
+    int a;
 
-    if (argc == 2){
-        Path = argv[1];   
+    if(argc == 1){
+        cout << "Passe o nome de um arquivo como primeiro parametro. Aperte algo para sair";
     }
-
-    HuffmanFile::Compress(Path);
+    else if (argc >= 2){
+        Path = argv[1];   
+        HuffmanFile::Decompress(Path);
+        cout << "Compressao terminada. Aperte algo para sair";
+    }
+    cin >> a;
 
     
     return 0;
