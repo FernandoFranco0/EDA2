@@ -7,11 +7,13 @@ public:
     char BitCount;
     ofstream Out;
     unsigned long long int TotalBitsRead;
+    bool e;
 
     OutBit(string Path){
         CurrentByte = 0;
         BitCount = 0;
         Out.open(Path, ios::binary);
+        e = Out.fail();
     };
     
     // bit = 0 ou 1
@@ -53,11 +55,13 @@ public:
     unsigned char BitCount;
     unsigned long long int TotalBitsRead;
     ifstream In;
+    bool e;
 
     InBit(string Path){
         CurrentByte = 0;
         BitCount = 0;
         In.open(Path, ios::binary);
+        e = In.fail();
         TotalBitsRead = 0;
     };
 

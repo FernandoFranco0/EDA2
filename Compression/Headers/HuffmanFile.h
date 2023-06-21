@@ -80,7 +80,20 @@ class HuffmanFile
             filesystem::path a = Path;
             unsigned long long int Lenght = filesystem::file_size(a);
 
-            auto FrequencyMap = HuffmanFile::CountFrequency(Path, Lenght);
+            if(Lenght == 0){
+                cout << "Escolha um arquivo com tamanho maior que 0 bytes";
+                return;
+            }
+            unordered_map<char, int> FrequencyMap;
+            try{
+                FrequencyMap = HuffmanFile::CountFrequency(Path, Lenght);
+            }
+            catch(int e){
+                if (e == 1){
+                    cout << "Falha ao abrir arquivo de entrada";
+                    return;
+                }
+            }
             auto Root = HuffmanFile::CreateTreeCompress(FrequencyMap);
 
             unordered_map<char,string> CodesMap;
@@ -92,15 +105,29 @@ class HuffmanFile
             }
 
             OutBit b("Compressed.afc");
+            
+            if(b.e){
+                cout << "Falha ao abrir arquivo comprimido. Tente novamente";
+                return;
+            }
+
             Root->CreateHeader(&b);
 
-
-            Root->WriteCompressedMsg(&b, Path, Lenght, CodesMap);
+            try{
+                Root->WriteCompressedMsg(&b, Path, Lenght, CodesMap);
+            }
+            catch(int e){
+                if (e == 1){
+                    cout << "Falha ao abrir arquivo comprimido. Tente novamente";
+                    return;
+                }
+            }
+            
 
             char BitCount = b.BitCount;
             
             b.Fill();
-
+            BitCount = BitCount == 0 ? 8 : BitCount;
             b.WriteByte(BitCount);
             /*
             0 - > Ler 8
@@ -121,7 +148,7 @@ class HuffmanFile
             in.open(InPath, ios::binary);
 
             if(in.fail()){
-                cout << "Falha ao abrir o arquivo";
+                throw(1);
             }
 
             char x;
@@ -148,7 +175,6 @@ class HuffmanFile
 
             for(auto Letter : OrderedAlphabet){
                 b->WriteByte(Letter);
-
                 cout << (int)Letter << " ";
             }
 
@@ -179,7 +205,7 @@ class HuffmanFile
             in.open(Path, ios::binary);
 
             if(in.fail()){
-                cout << "Falha ao abrir o arquivo";
+                throw(1);
             }
 
             char x;
@@ -197,7 +223,18 @@ class HuffmanFile
             filesystem::path a = Path;
             unsigned long long int Lenght = filesystem::file_size(a);
 
+            if(Lenght == 0){
+                cout << "Escolha um arquivo com tamanho maior que 0 bytes";
+                return;
+            }
+
             InBit b(Path);
+
+            if(b.e){
+                cout << "Falha ao abrir arquivo comprimido. Tente novamente";
+                return;
+            }
+
             cout << "0 ";
             auto Root = CreateTreeDecompress(&b,b.ReadBit());
 
@@ -245,6 +282,11 @@ class HuffmanFile
             auto Buffer = this;
             OutBit OutB("Arquivo Descomprimido.afc");
 
+            if(OutB.e){
+                cout << "Falha ao abrir o arquivo descomprimido";
+                return;
+            }
+
             for(unsigned long long int i = 0 ; i < Lenght - 16 ; i++){
                                 
                 if(!Buffer->LeftNode && !Buffer->RightNode){
@@ -264,7 +306,6 @@ class HuffmanFile
 
             char LastByte = b->ReadByte();
             int BitsToConsider = b->ReadByte();
-            BitsToConsider = BitsToConsider == 0 ? 8 : BitsToConsider;
 
             int a;
 
