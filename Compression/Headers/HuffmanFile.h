@@ -78,12 +78,29 @@ class HuffmanFile
 
         static void Compress(string Path){
             filesystem::path a = Path;
-            unsigned long long int Lenght = filesystem::file_size(a);
+            unsigned long long int Lenght = 0;
+            
+            try{
+                Lenght = filesystem::file_size(a);
+            }
+            catch(...){
+                cout << "Passe o nome de um arquivo valido";
+                return;
+            }
 
             if(Lenght == 0){
                 cout << "Escolha um arquivo com tamanho maior que 0 bytes";
                 return;
             }
+
+            string ReversedExtension = "";
+
+            for(int i = Path.size()-1 ; i >= 0 ; i--){
+                ReversedExtension += Path[i];
+                if(Path[i] == '.')
+                    break;
+            }
+
             unordered_map<char, int> FrequencyMap;
             try{
                 FrequencyMap = HuffmanFile::CountFrequency(Path, Lenght);
@@ -94,6 +111,11 @@ class HuffmanFile
                     return;
                 }
             }
+
+            for(auto c : ReversedExtension){
+                FrequencyMap[c]++;
+            }
+
             auto Root = HuffmanFile::CreateTreeCompress(FrequencyMap);
 
             unordered_map<char,string> CodesMap;
@@ -114,7 +136,7 @@ class HuffmanFile
             Root->CreateHeader(&b);
 
             try{
-                Root->WriteCompressedMsg(&b, Path, Lenght, CodesMap);
+                Root->WriteCompressedMsg(&b, Path, Lenght, CodesMap, ReversedExtension);
             }
             catch(int e){
                 if (e == 1){
@@ -143,7 +165,9 @@ class HuffmanFile
 
         }
         
-        void WriteCompressedMsg(OutBit *b, string InPath, unsigned long long int Lenght, unordered_map<char, string> CodesMap){
+        void WriteCompressedMsg(OutBit *b, string InPath, unsigned long long int Lenght, 
+                                unordered_map<char, string> CodesMap, string ReversedExtension){
+            
             ifstream in;
             in.open(InPath, ios::binary);
 
@@ -153,6 +177,16 @@ class HuffmanFile
 
             char x;
             string Code;
+
+            for(auto c : ReversedExtension){
+                Code = CodesMap[c];
+                for(auto bit : Code){
+                    if(bit == '0')
+                        b->WriteBit(0);
+                    else
+                        b->WriteBit(1);
+                }
+            }
 
             for(unsigned long long int i = 0 ; i < Lenght ; i++){
                 in.read(&x,1);
@@ -280,7 +314,29 @@ class HuffmanFile
         //Lenght in bits
         void DecompressMsg(InBit *b, unsigned long long int Lenght){
             auto Buffer = this;
-            OutBit OutB("Arquivo Descomprimido.afc");
+
+            string Extension = "";
+
+            while(Buffer->Character != '.'){
+                if(!Buffer->LeftNode && !Buffer->RightNode){
+                    Extension = Buffer->Character + Extension;
+                    Buffer = this;
+                }
+                else{
+                    if(b->ReadBit() == 0)
+                        Buffer = Buffer->LeftNode;
+                    else
+                        Buffer = Buffer->RightNode;
+                    Lenght--;
+                }
+            }
+
+            if(!Buffer->LeftNode && !Buffer->RightNode){
+                Extension = Buffer->Character + Extension;
+                Buffer = this;
+            }
+
+            OutBit OutB("Arquivo Descomprimido" + Extension);
 
             if(OutB.e){
                 cout << "Falha ao abrir o arquivo descomprimido";
@@ -299,9 +355,7 @@ class HuffmanFile
                         Buffer = Buffer->LeftNode;
                     else
                         Buffer = Buffer->RightNode;
-                    
                 }
-                
             }
 
             char LastByte = b->ReadByte();

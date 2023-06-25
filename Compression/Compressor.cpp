@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
     }
     else if (argc >= 2){
         Path = argv[1];   
-        HuffmanFile::Decompress(Path);
+        HuffmanFile::Compress(Path);
         cout << "Compressao terminada. Aperte algo para sair";
     }
     cin >> a;
