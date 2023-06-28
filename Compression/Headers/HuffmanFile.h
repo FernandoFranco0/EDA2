@@ -84,12 +84,12 @@ class HuffmanFile
                 Lenght = filesystem::file_size(a);
             }
             catch(...){
-                cout << "Passe o nome de um arquivo valido";
+                cout << "Passe o nome de um arquivo valido" << endl;
                 return;
             }
 
             if(Lenght == 0){
-                cout << "Escolha um arquivo com tamanho maior que 0 bytes";
+                cout << "Escolha um arquivo com tamanho maior que 0 bytes" << endl;
                 return;
             }
 
@@ -107,10 +107,13 @@ class HuffmanFile
             }
             catch(int e){
                 if (e == 1){
-                    cout << "Falha ao abrir arquivo de entrada";
+                    cout << "Falha ao abrir arquivo de entrada" << endl;
                     return;
                 }
             }
+
+            Entropy(FrequencyMap, Lenght);
+
 
             for(auto c : ReversedExtension){
                 FrequencyMap[c]++;
@@ -121,15 +124,10 @@ class HuffmanFile
             unordered_map<char,string> CodesMap;
             Root->Codes(CodesMap);
 
-            cout << "Codigos:" << CodesMap.size() << endl;
-            for(auto c : CodesMap){
-                cout << (int)c.first << " " << c.second << endl;
-            }
-
             OutBit b("Compressed.afc");
             
             if(b.e){
-                cout << "Falha ao abrir arquivo comprimido. Tente novamente";
+                cout << "Falha ao abrir arquivo comprimido. Tente novamente" << endl;
                 return;
             }
 
@@ -140,7 +138,7 @@ class HuffmanFile
             }
             catch(int e){
                 if (e == 1){
-                    cout << "Falha ao abrir arquivo comprimido. Tente novamente";
+                    cout << "Falha ao abrir arquivo comprimido. Tente novamente" << endl;
                     return;
                 }
             }
@@ -151,12 +149,6 @@ class HuffmanFile
             b.Fill();
             BitCount = BitCount == 0 ? 8 : BitCount;
             b.WriteByte(BitCount);
-            /*
-            0 - > Ler 8
-            1 -> Ler 1
-            2 -> Ler 2
-            
-            */
 
             b.Close();
 
@@ -205,14 +197,10 @@ class HuffmanFile
 
             CreateHeaderR(b, &OrderedAlphabet);
             b->WriteBit(1);
-            cout << 1 << " ";
 
             for(auto Letter : OrderedAlphabet){
                 b->WriteByte(Letter);
-                cout << (int)Letter << " ";
             }
-
-            cout << endl << endl << endl;
 
         }
 
@@ -223,10 +211,8 @@ class HuffmanFile
             }
                 
             b->WriteBit(0);
-            cout << "0 ";
             LeftNode->CreateHeaderR(b, OrderedAlphabet);
             b->WriteBit(1);
-            cout << "1 ";
             RightNode->CreateHeaderR(b, OrderedAlphabet);
 
             return;     
@@ -258,18 +244,17 @@ class HuffmanFile
             unsigned long long int Lenght = filesystem::file_size(a);
 
             if(Lenght == 0){
-                cout << "Escolha um arquivo com tamanho maior que 0 bytes";
+                cout << "Escolha um arquivo com tamanho maior que 0 bytes" << endl;
                 return;
             }
 
             InBit b(Path);
 
             if(b.e){
-                cout << "Falha ao abrir arquivo comprimido. Tente novamente";
+                cout << "Falha ao abrir arquivo comprimido. Tente novamente" << endl;
                 return;
             }
 
-            cout << "0 ";
             auto Root = CreateTreeDecompress(&b,b.ReadBit());
 
             Root->Fill(&b);
@@ -286,11 +271,9 @@ class HuffmanFile
             if(bit == 0){
                 Root->LeftNode = new HuffmanFile();
                 int a = b->ReadBit();
-                cout << a << " ";
                 CreateTreeDecompress(b,a, Root->LeftNode);
                 Root->RightNode = new HuffmanFile();
                 a = b->ReadBit();
-                cout << a << " ";
                 CreateTreeDecompress(b,a, Root->RightNode);
             }
             return Root;
@@ -312,7 +295,7 @@ class HuffmanFile
         }
         
         //Lenght in bits
-        void DecompressMsg(InBit *b, unsigned long long int Lenght){
+        void DecompressMsg(InBit *b, long double Lenght){
             auto Buffer = this;
 
             string Extension = "";
@@ -339,7 +322,7 @@ class HuffmanFile
             OutBit OutB("Arquivo Descomprimido" + Extension);
 
             if(OutB.e){
-                cout << "Falha ao abrir o arquivo descomprimido";
+                cout << "Falha ao abrir o arquivo descomprimido" << endl;
                 return;
             }
 
@@ -386,7 +369,25 @@ class HuffmanFile
 
             OutB.Close();
         }
-};
 
-// 0 0 0 1 1 1 0 1 0 1 1
-// 0 0 0 1 3 7 14 29 0 1 3
+        static void Entropy(unordered_map<char, int> FrequencyMap, unsigned long long int Lenght){
+            long double Sum = 0;
+
+            for(auto c : FrequencyMap){
+                Sum += c.second * ( log2((long double)c.second) - log2((long double)Lenght) );
+            }
+
+            Sum /= Lenght;
+            Sum *= -1;
+
+            cout << endl;
+            cout << endl;
+            cout << endl;
+            cout << endl;
+            cout << Sum ;
+            cout << endl;
+            cout << endl;
+            cout << endl;
+            cout << endl;
+        }
+};
