@@ -101,6 +101,8 @@ class HuffmanFile
                     break;
             }
 
+            cout << "Contando frequencia" << endl;
+
             unordered_map<char, int> FrequencyMap;
             try{
                 FrequencyMap = HuffmanFile::CountFrequency(Path, Lenght);
@@ -119,8 +121,10 @@ class HuffmanFile
                 FrequencyMap[c]++;
             }
 
+            cout << "Criando arvore" << endl << endl;
             auto Root = HuffmanFile::CreateTreeCompress(FrequencyMap);
 
+            cout << "Preenchendo arvore" << endl << endl;
             unordered_map<char,string> CodesMap;
             Root->Codes(CodesMap);
 
@@ -131,9 +135,12 @@ class HuffmanFile
                 return;
             }
 
+            cout << "Criando header" << endl << endl;
             Root->CreateHeader(&b);
 
+            cout << "Escrevendo mensagem" << endl;
             try{
+
                 Root->WriteCompressedMsg(&b, Path, Lenght, CodesMap, ReversedExtension);
             }
             catch(int e){
@@ -167,9 +174,11 @@ class HuffmanFile
                 throw(1);
             }
 
+
             char x;
             string Code;
 
+            
             for(auto c : ReversedExtension){
                 Code = CodesMap[c];
                 for(auto bit : Code){
@@ -180,6 +189,9 @@ class HuffmanFile
                 }
             }
 
+            int previous = 1;
+            cout << "Bytes lidos: " << "0/" << Lenght << "\r" << flush;
+
             for(unsigned long long int i = 0 ; i < Lenght ; i++){
                 in.read(&x,1);
                 Code = CodesMap[x];
@@ -189,7 +201,13 @@ class HuffmanFile
                     else
                         b->WriteBit(1);
                 }
+
+                if (i >= previous * (Lenght / 20)){
+                    previous++;
+                    cout << "Bytes comprimidos: " << i << "/" << Lenght << "\r" << flush;
+                }
             }
+            cout << endl <<  "Todos bytes lidos" << endl << endl;
         }
 
         void CreateHeader(OutBit *b){
@@ -230,10 +248,18 @@ class HuffmanFile
 
             char x;
 
+            int previous = 1;
+            cout << "Bytes lidos: " << "0/" << Lenght << "\r" << flush;
+
             for(unsigned long long int i = 0 ; i < Lenght ; i++){
                 in.read(&x,1);
                 Frequency[x]++;
+                if (i >= previous * (Lenght / 20)){
+                    previous++;
+                    cout << "Bytes lidos: " << i << "/" << Lenght << "\r" << flush;
+                }
             }
+            cout << endl <<  "Todos bytes lidos" << endl << endl;
             
             in.close();
             return Frequency;
@@ -254,10 +280,16 @@ class HuffmanFile
                 cout << "Falha ao abrir arquivo comprimido. Tente novamente" << endl;
                 return;
             }
+            
+            cout << "Criando arvore para descompressao" << endl << endl;
 
             auto Root = CreateTreeDecompress(&b,b.ReadBit());
 
+            cout << "Preenchendo arvore para descompressao" << endl << endl;
+
             Root->Fill(&b);
+
+            cout << "Descomprimindo mensagem" << endl << endl;
 
             Root->DecompressMsg(&b, 8*Lenght - b.TotalBitsRead);
 
@@ -326,6 +358,9 @@ class HuffmanFile
                 return;
             }
 
+            int previous = 1;
+            cout << "Bytes lidos: " << "0/" << (int)Lenght/8 << "\r" << flush;
+
             for(unsigned long long int i = 0 ; i < Lenght - 16 ; i++){
                                 
                 if(!Buffer->LeftNode && !Buffer->RightNode){
@@ -338,6 +373,11 @@ class HuffmanFile
                         Buffer = Buffer->LeftNode;
                     else
                         Buffer = Buffer->RightNode;
+                }
+
+                if (i >= previous * (Lenght / 20)){
+                    previous++;
+                    cout << "Bytes lidos: " << (int) i/8 << "/" << (int) Lenght/8 << "\r" << flush;
                 }
             }
 
@@ -367,6 +407,8 @@ class HuffmanFile
                 Buffer = this;
             }
 
+            cout << endl <<  "Todos bytes lidos" << endl << endl;
+
             OutB.Close();
         }
 
@@ -380,14 +422,6 @@ class HuffmanFile
             Sum /= Lenght;
             Sum *= -1;
 
-            cout << endl;
-            cout << endl;
-            cout << endl;
-            cout << endl;
-            cout << Sum ;
-            cout << endl;
-            cout << endl;
-            cout << endl;
-            cout << endl;
+            cout << "Entropia = " << Sum << endl << endl;
         }
 };
